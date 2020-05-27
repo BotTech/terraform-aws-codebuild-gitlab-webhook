@@ -1,5 +1,7 @@
 # terraform-aws-codebuild-gitlab-webhook
 
+https://registry.terraform.io/modules/BotTech/codebuild-gitlab-webhook/aws/
+
 Terraform module for AWS CodeBuild which receives GitLab webhooks and starts a build.
 
 This exists to workaround the lack of built in GitLab support within AWS CodeBuild. There is a feature request to
@@ -277,25 +279,38 @@ You need to [create a personal access token] with `api` scope so that you may us
 The final step is to obtain an OAuth token.
 
 1. Create an [OAuth application in the Admin area] with `api` scope and an arbitrary Redirect/Callback URL.
+
     > ℹ️ Take note of the `Application ID` and `Secret`.
+
 1. You need to generate a random state value that is difficult to guess:
+
     ```shell script
     cat /dev/urandom | head -c 32 | shasum -a 256 -b | cut -d " " -f1
     ```
+
 1. Now create the authorization URL:
+
     ```text
     https://gitlab.com/oauth/authorize?client_id=<APP_ID>&redirect_uri=<REDIRECT_URL>&state=<STATE>&response_type=code&scope=api
     ```
+
     Replace `<APP_ID>`, `<REDIRECT_URL>` and `<STATE>` with the values from earlier.
+
     > ⚠️ Remember to URL encode the Redirect URL. You can use [urlencoder] to do this.
+
 1. Open the authorization URL in a browser and authorize the application.
+
     > ℹ️ This will redirect you to your Redirect URL.
     > Take note of the `code` query parameter in the URL which will be used as the `<RETURNED_CODE>` in the next step.
+
 1. Now obtain a token
+
     ```text
     curl --verbose --request POST 'https://gitlab.com/oauth/token?client_id=<APP_ID>&client_secret=<APP_SECRET>&code=<RETURNED_CODE>&grant_type=authorization_code&redirect_uri=<REDIRECT_URL>'
     ```
+
     Replace `<APP_ID>`, `<APP_SECRET>`, `<RETURNED_CODE>`, `<REDIRECT_URL>` with the values from earlier.
+
     > The `access_token` returned in the body of the response is what you can now use as the value of the
     > `gitlab_oauth_token` Terraform variable.
 
