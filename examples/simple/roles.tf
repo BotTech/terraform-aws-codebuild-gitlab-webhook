@@ -115,32 +115,11 @@ data "aws_iam_policy_document" "code_build" {
     ]
   }
   statement {
-    sid       = "ECRListTags"
-    actions   = [
-      "ecr:ListTagsForResource"
-    ]
-    resources = [
-      "*"
-    ]
-  }
-  statement {
     sid       = "ECRPull"
     actions   = [
       "ecr:BatchCheckLayerAvailability",
       "ecr:BatchGetImage",
       "ecr:GetDownloadUrlForLayer"
-    ]
-    resources = [
-      "*"
-    ]
-  }
-  statement {
-    sid       = "ECRPush"
-    actions   = [
-      "ecr:CompleteLayerUpload",
-      "ecr:InitiateLayerUpload",
-      "ecr:PutImage",
-      "ecr:UploadLayerPart"
     ]
     resources = [
       "*"

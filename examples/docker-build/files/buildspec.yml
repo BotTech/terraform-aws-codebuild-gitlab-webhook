@@ -9,8 +9,8 @@ phases:
     commands:
       - echo Checking out "${GIT_BRANCH}" from repository "${GIT_URL}"...
       # This always builds the head of the branch regardless of what the GIT_COMMIT is.
-      - git clone --branch "${GIT_BRANCH}" --depth 1 "${GIT_URL/:\/\//://oauth2:${GITLAB_TOKEN}@}"
-      - cd community
+      - git clone --branch "${GIT_BRANCH}" --depth 1 "${GIT_URL/:\/\//://oauth2:${GITLAB_TOKEN}@}" src
+      - cd src
       - echo Logging in to Amazon ECR...
       - $(aws ecr get-login --no-include-email --region "${AWS_DEFAULT_REGION}")
       - export IMAGE_NAME="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"

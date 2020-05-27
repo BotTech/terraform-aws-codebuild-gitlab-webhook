@@ -10,8 +10,8 @@ resource "aws_codebuild_project" "build" {
   }
   description  = var.build_description
   environment {
-    compute_type    = var.build_compute_type
-    image           = var.build_image
+    compute_type = var.build_compute_type
+    image        = var.build_image
     environment_variable {
       name  = "AWS_DEFAULT_REGION"
       value = data.aws_region.current.name
@@ -33,15 +33,10 @@ resource "aws_codebuild_project" "build" {
       value = var.gitlab_url
     }
     environment_variable {
-      name  = "IMAGE_REPO_NAME"
-      value = aws_ecr_repository.repo.name
-    }
-    environment_variable {
       name  = "IMAGE_TAG"
       value = "latest"
     }
-    privileged_mode = true
-    type            = "LINUX_CONTAINER"
+    type         = "LINUX_CONTAINER"
   }
   name         = var.build_name
   service_role = aws_iam_role.code_build_service.arn
@@ -57,12 +52,4 @@ data "aws_region" "current" {}
 
 data "local_file" "buildspec" {
   filename = "${path.module}/files/buildspec.yml"
-}
-
-resource "aws_ecr_repository" "repo" {
-  name = var.ecr_repository_name
-
-  image_scanning_configuration {
-    scan_on_push = true
-  }
 }
