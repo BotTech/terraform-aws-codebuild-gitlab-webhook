@@ -377,3 +377,7 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/vim,linux,macos,emacs,python,windows,terraform,intellij+all,visualstudiocode
+
+
+# Terraform outputs
+outputs/

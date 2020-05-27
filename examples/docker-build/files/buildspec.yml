@@ -1,0 +1,35 @@
+version: 0.2
+
+env:
+  secrets-manager:
+    GITLAB_TOKEN: GitLabToken
+
+phases:
+  pre_build:
+    commands:
+      - echo Checking out "${GIT_BRANCH}" from repository "${GIT_URL}"...
+      # This always builds the head of the branch regardless of what the GIT_COMMIT is.
+      - git clone --branch "${GIT_BRANCH}" --depth 1 "${GIT_URL/:\/\//://oauth2:${GITLAB_TOKEN}@}"
+      - cd community
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login --no-include-email --region "${AWS_DEFAULT_REGION}")
+      - export IMAGE_NAME="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
+      - docker pull "${IMAGE_NAME}:latest" || true
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - |
+        DOCKER_BUILDKIT=1 docker build \
+          --build-arg BUILDKIT_INLINE_CACHE=1 \
+          --cache-from "${IMAGE_NAME}:latest" \
+          --file docker/Dockerfile \
+          --tag "${IMAGE_NAME}:${IMAGE_TAG}" \
+          --tag "${IMAGE_NAME}:latest" \
+          .
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push "${IMAGE_NAME}:${IMAGE_TAG}"
+      - docker push "${IMAGE_NAME}:latest"
