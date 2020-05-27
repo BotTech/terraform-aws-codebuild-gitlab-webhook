@@ -1,5 +1,5 @@
 module "build_example_image_webhook" {
-  source  = "bottech/codebuild-gitlab-webhook/aws"
+  source  = "BotTech/codebuild-gitlab-webhook/aws"
   version = "1.0.0"
 
   authorizer_role_arn = aws_iam_role.lambda_basic_service.arn
