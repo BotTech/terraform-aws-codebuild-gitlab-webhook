@@ -1,4 +1,4 @@
-# terraform-aws-codebuild-gitlab-webhook
+# BotTech/codebuild-gitlab-webhook/aws
 
 https://registry.terraform.io/modules/BotTech/codebuild-gitlab-webhook/aws/
 
@@ -7,13 +7,11 @@ Terraform module for AWS CodeBuild which receives GitLab webhooks and starts a b
 This exists to workaround the lack of built in GitLab support within AWS CodeBuild. There is a feature request to
 [integration GitLab with AWS CodeBuild].
 
-## Usage
-
 The quickest way to get started is to refer to one of the examples above 👆.
 
-### Prerequisites
+## Configuration
 
-#### Roles
+### Roles
 
 In order to use this module you need to define two roles.
 
@@ -158,7 +156,7 @@ data "aws_iam_policy_document" "code_build" {
 
 > ℹ️ If your build needs to perform additional actions then you can attach additional policies to the `code_build` role.
 
-#### CodeBuild Project
+### CodeBuild Project
 
 The next thing that you need is to define the `aws_codebuild_project`.
 
@@ -176,7 +174,7 @@ git clone --branch "${GIT_BRANCH}" --no-checkout "${GIT_URL/:\/\//://oauth2:${GI
 git checkout "${GIT_COMMIT}"
 ```
 
-#### Secrets
+### Secrets
 
 In order to checkout the GitLab repository we need to store the GitLab OAuth in AWS Secrets Manager:
 
@@ -220,9 +218,9 @@ env:
     GITLAB_TOKEN: GitLabToken
 ```
 
-### Module
+## Module
 
-Now that you have all the prerequisites you can setup configure the module:
+Now that you have all the prerequisites you can configure the module:
 
 ```hcl-terraform
 module "build_example_image_webhook" {
@@ -235,7 +233,7 @@ module "build_example_image_webhook" {
 }
 ```
 
-### GitLab
+## GitLab
 
 Finally you can use the outputs of the module to create the webhook in GitLab:
 
@@ -254,7 +252,7 @@ resource "gitlab_project_hook" "community" {
 
 > ⚠️ Currently only `push_events` and `merge_request_events` are supported.
 
-### Applying
+## Applying
 
 The very last thing to do before you can apply this configuration is to setup the GitLab token variables:
 
@@ -270,11 +268,11 @@ variable "gitlab_oauth_token" {
 }
 ```
 
-#### Personal Access Token
+### Personal Access Token
 
 You need to [create a personal access token] with `api` scope so that you may use Terraform's GitLab provider.
 
-#### OAuth Token
+### OAuth Token
 
 The final step is to obtain an OAuth token.
 

@@ -1,7 +1,7 @@
 # Simple Example
 
-This is a simple example of using `terraform-aws-codebuild-gitlab-webhook` to create a webhook which receives push
-events from a GitLab repository and builds it using AWS CodeBuild.
+This is a simple example of using `BotTech/codebuild-gitlab-webhook/aws` to create a webhook which
+receives push events from a GitLab repository and builds it using AWS CodeBuild.
 
 ## Configuration
 
