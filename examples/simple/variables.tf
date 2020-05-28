@@ -20,6 +20,11 @@ variable "build_image" {
   type        = string
 }
 
+variable "build_spec" {
+  description = "The contents of the buildspec file."
+  type        = string
+}
+
 variable "gitlab_oauth_token" {
   description = "GitLab OAuth token. The token must have api scope."
   type        = string

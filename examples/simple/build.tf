@@ -41,7 +41,7 @@ resource "aws_codebuild_project" "build" {
   name         = var.build_name
   service_role = aws_iam_role.code_build_service.arn
   source {
-    buildspec = data.local_file.buildspec.content
+    buildspec = var.build_spec
     type      = "NO_SOURCE"
   }
 }
@@ -49,7 +49,3 @@ resource "aws_codebuild_project" "build" {
 data "aws_caller_identity" "current" {}
 
 data "aws_region" "current" {}
-
-data "local_file" "buildspec" {
-  filename = "${path.module}/files/buildspec.yml"
-}
