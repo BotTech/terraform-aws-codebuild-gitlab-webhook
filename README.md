@@ -276,7 +276,11 @@ You need to [create a personal access token] with `api` scope so that you may us
 
 The final step is to obtain an OAuth token.
 
-1. Create an [OAuth application in the Admin area] with `api` scope and an arbitrary Redirect/Callback URL.
+1. Create an [OAuth application in the Admin area] with `api` scope and a Redirect/Callback URL to a domain which you
+control.
+
+    > ⚠️ There should not be any third-party scripts, for example trackers and advertisements, at the URL used for the
+    > Redirect/Callback URL. Doing so can compromise the token and give third party full access to your GitLab account.
 
     > ℹ️ Take note of the `Application ID` and `Secret`.
 
