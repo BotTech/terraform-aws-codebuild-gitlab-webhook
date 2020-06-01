@@ -7,6 +7,9 @@ env:
 phases:
   pre_build:
     commands:
+      # WARNING: For added security you should not use the `GIT_URL` environment variable and hard code it instead.
+      # WARNING: Be careful how you use the `latest` image. If this build runs on a branch which may not be fully
+      # trusted then it can update latest which could have downstream implications.
       - echo Checking out "${GIT_BRANCH}" from repository "${GIT_URL}"...
       # This always builds the head of the branch regardless of what the GIT_COMMIT is.
       - git clone --branch "${GIT_BRANCH}" --depth 1 "${GIT_URL/:\/\//://oauth2:${GITLAB_TOKEN}@}" src

@@ -167,12 +167,15 @@ When the build is started the following environment variables will be provided f
 * `GIT_COMMIT`
 * `GIT_URL`
 
-You should use these environment variables in your buildspec file to checkout the GitLab repository. For example:
+You can use these environment variables in your buildspec file to checkout the GitLab repository. For example:
 
 ```
 git clone --branch "${GIT_BRANCH}" --no-checkout "${GIT_URL/:\/\//://oauth2:${GITLAB_TOKEN}@}"
 git checkout "${GIT_COMMIT}"
 ```
+
+> ⚠️ For added security you should not use the `GIT_URL` environment variable and hard code it instead. If an attacker
+> is able to make a request to trigger a build then they could inject malicious code into your build.
 
 ### Secrets
 
