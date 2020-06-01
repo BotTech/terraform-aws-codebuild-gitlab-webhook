@@ -44,7 +44,7 @@ data "local_file" "buildspec" {
 ```hcl-terraform
 module "codebuild-gitlab-webhook_example_simple" {
   source  = "BotTech/codebuild-gitlab-webhook/aws//examples/simple"
-  version = "1.0.1"
+  version = "1.0.3"
 
   build_description  = "Example of a build triggered by a GitLab webhook."
   build_name         = "Example"
